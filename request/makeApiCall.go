@@ -2,17 +2,16 @@ package request
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-func ApiCall() (string, error) {
+func ApiCall() (map[string]interface{}, error) {
 	err := godotenv.Load()
 	if err != nil {
-		return "could not load env vars, pleaes try again alter", err
+		return nil, err
 	}
 
 	apiKey := os.Getenv("CURRENCY_APP_ID")
@@ -24,7 +23,7 @@ func ApiCall() (string, error) {
 	// ...
 	req, err := http.NewRequest("GET", apiUrl, nil)
 	if err != nil {
-		return "could not create request, please try again later", err
+		return nil, err
 	}
 
 	req.Header.Set("Accept", "application/json")
@@ -34,7 +33,7 @@ func ApiCall() (string, error) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return "could not make request, please try again later", err
+		return nil, err
 	}
 
 	defer resp.Body.Close() // Done to close the response body
@@ -43,9 +42,8 @@ func ApiCall() (string, error) {
 	// Handle the response
 	err = json.NewDecoder(resp.Body).Decode(&result)
 	if err != nil {
-		return "could not decode response, please try again later", err
+		return nil, err
 	}
 
-	fmt.Println(result) // Print the response for demonstration purposes
-	return "API call successful", nil
+	return result, nil
 }

@@ -5,15 +5,15 @@ import (
 )
 
 type FormData struct {
-	currencyFrom string
-	currencyTo   string
-	amount       string
+	CurrencyFrom string
+	CurrencyTo   string
+	Amount       string
 }
 
 var formData = &FormData{
-	currencyFrom: "",
-	currencyTo:   "",
-	amount:       "",
+	CurrencyFrom: "",
+	CurrencyTo:   "",
+	Amount:       "",
 }
 
 func (formData *FormData) InitializeForm() error {
@@ -29,7 +29,7 @@ func (formData *FormData) InitializeForm() error {
 					huh.NewOption("GBP", "GBP"),
 					huh.NewOption("INR", "INR"),
 				).
-				Value(&formData.currencyFrom),
+				Value(&formData.CurrencyFrom),
 
 			// Let the user select multiple toppings.
 			huh.NewSelect[string]().
@@ -40,12 +40,12 @@ func (formData *FormData) InitializeForm() error {
 					huh.NewOption("GBP", "GBP"),
 					huh.NewOption("INR", "INR"),
 				).
-				Value(&formData.currencyTo),
+				Value(&formData.CurrencyTo),
 
 			huh.NewInput().
 				Title("How much is the amount you want to convert ").
 				Prompt("Enter a number").
-				Value(&formData.amount),
+				Value(&formData.Amount),
 		),
 	)
 
